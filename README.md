@@ -7,7 +7,8 @@ Applying NBD model, the Poisson regression model, and the NBD Regression Models 
 Using these models ato analyse the customer purchasing behaviour at two competitor stores, Amazon.com and Barnes & Noble.
 The total number of books purchased from B&N for each of the first 10 customers is given below.
 
- 
+![1](1.png)
+
 An NBD model was run on the books dataset and the parameters are computed as alpha= 0.1426 and r= 0.1014.
 
 PROC SQL;                                                                                                                                 
@@ -34,7 +35,7 @@ RUN;
 
 
 
- 
+ ![2](2.png)
 
 
 /* The NBD Model */
@@ -44,7 +45,7 @@ ll = users * ( log(gamma(r+Qty))-log(gamma(r))-log(fact(Qty))+r*log(a/(a+1))+Qty
 model Qty ~ general(ll);
 run;
 
- 
+![3](3.png) 
  
 data a;                                                                                                                                  
 alpha=0.09723;                                                                                                                             
@@ -78,7 +79,7 @@ Data new;
 set project.book1;                                                                                                                                                                                  
 reg=input(region,2.);                                                                                                                                                                               
 run;                                                                                                                                                                                                
-                                                                                                                                                                                                    
+                                                                                                                                                                                                 
 DATA project.book2;                                                                                                                                                                                 
 set work.new;                                                                                                                                                                                       
 drop region;                                                                                                                                                                                        
@@ -91,8 +92,9 @@ proc nlmixed data=project.book2;
   m=m0*exp(b1*hhsz+b2*age+b3*income+b4*child+b5*country+b6*reg+b7*race+b8*education);                                                                                                               
   ll = Qty*log(m)-m-log(fact(Qty));                                                                                                                                                                 
   model Qty ~ general(ll);                                                                                                                                                                          
-run; 
+run;
 
+![4](4.png)
  
 From the output we observe the following:
 •	From the p values we observe that the parameters b3, b5, b7 and b8 are significant i.e. the variables income, country, race and education are highly significant compared to other parameters in determining the quantity of books purchased.
@@ -104,7 +106,7 @@ From the output we observe the following:
 •	Child variable has the highest coefficient value among all variables.
 
 Since, education has more number of missing values i.e. 73.7%, we are eliminating education variable from the data and running the regression again.
-
+![5](5.png)
  
 We can observe that there is slight variation in the coefficients of the remaining variables.
 As the missing data is eliminated from the analysis we can now infer the results to be more accurate compared to the previous model.
@@ -123,7 +125,7 @@ proc nlmixed data=project.book2;
   model Qty ~ general(ll);                                                                                                                                                                          
 run;  
 
-
+![6](6.png)
 
  
 •	From the p values we observe that the parameters b5 is significant i.e. the variable country is highly significant compared to other parameters in determining the quantity of books purchased.
@@ -133,7 +135,7 @@ run;
 
 Since, education has more number of missing values i.e. 73.7%, we are eliminating education variable from the data and running the regression again.
 
- 
+ ![7](7.png)
 
 We can observe that there is slight variation in the coefficients of the remaining variables.
 As the missing data is eliminated from the analysis we can now infer the results to be more accurate compared to the previous model.
