@@ -16,19 +16,19 @@ CREATE TABLE Project.book1 AS
 SELECT count(userid) AS users, qty from project.book1 group by qty;                                                                       
 run;
 
-/* The NBD Model */
-PROC NLMIXED DATA=project.book1;
-PARMS r=1 a=1;
-retain Prob;
-IF Qty = 0 THEN DO;
-Prob1=(a/(a+1))**r;
-Prob=Prob1;
-LL=users*Log(Prob);
-END;
-ELSE IF Qty >0 THEN DO;
-Prob=((r+(Qty-1))/(Qty*(a+1)))*Prob;
-LL=users*Log(Prob);
-END;
+/* The NBD Model */                                                                                                                     
+PROC NLMIXED DATA=project.book1;                                                                           
+PARMS r=1 a=1;                                                                                                                          
+retain Prob;                                                                                                                          
+IF Qty = 0 THEN DO;                                                                                   
+Prob1=(a/(a+1))**r;                                                                                          
+Prob=Prob1;                                                                                              
+LL=users*Log(Prob);                                                                                                            
+END;                                                                                                                  
+ELSE IF Qty >0 THEN DO;                                                                                                  
+Prob=((r+(Qty-1))/(Qty*(a+1)))*Prob;                                                                        
+LL=users*Log(Prob);                                                      
+END;                                                                         
 
 MODEL Qty~general(LL);
 RUN;
